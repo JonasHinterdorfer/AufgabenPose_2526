@@ -1,0 +1,55 @@
+name: Build and Test .NET Solutions
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  find-solutions:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find all solution directories
+        id: set-matrix
+        run: |
+          # Find all .sln files and get their directories
+          solutions=$(find . -name "*.sln" -type f | while read sln; do
+            dir=$(dirname "$sln")
+            echo "$dir"
+          done | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "matrix=$solutions" >> $GITHUB_OUTPUT
+
+  build-and-test:
+    needs: find-solutions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        solution-dir: ${{ fromJson(needs.find-solutions.outputs.matrix) }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v9
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@v3
+
+      - name: Build solution
+        working-directory: ${{ matrix.solution-dir }}
+        run: |
+          nix develop --command dotnet build
+
+      - name: Run tests
+        working-directory: ${{ matrix.solution-dir }}
+        run: |
+          nix develop --command dotnet test --no-build --verbosity normal
+
