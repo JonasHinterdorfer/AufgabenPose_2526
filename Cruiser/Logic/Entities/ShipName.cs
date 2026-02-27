@@ -1,6 +1,9 @@
 ﻿namespace Logic.Entities;
 
-public class ShipName
+public class ShipName : EntityObject
 {
-    //TODO Add properties ShipName
+    public required string      Name         { get; set; }
+    
+    public          int         CruiseShipId { get; set; }
+    public          CruiseShip? CruiseShip   { get; set; }
 }
