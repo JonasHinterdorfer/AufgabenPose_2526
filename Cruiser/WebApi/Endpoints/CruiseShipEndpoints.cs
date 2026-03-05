@@ -1,4 +1,4 @@
-﻿namespace WebApi.Endpoints;
+﻿﻿namespace WebApi.Endpoints;
 
 using Logic;
 using Logic.Entities;
@@ -12,12 +12,30 @@ public static class CruiseShipEndpoints
         var ships = app.MapGroup($"{baseRoute}").WithTags("CruiseShips");
 
         // GET: api/CruiseShips
-        ships.MapGet("", async () =>
+        ships.MapGet("", async (ApplicationDbContext dbContext) =>
             {
-                //TODO get Data and map to DTOs
-                throw new NotImplementedException();
+                var result = await dbContext.Ships
+                    .Include(s => s.ShippingCompany)
+                    .Include(s => s.ShipNames)
+                    .Select(s => new
+                    {
+                        s.Id,
+                        s.Name,
+                        s.Cabins,
+                        s.Crew,
+                        s.Length,
+                        s.Passengers,
+                        s.Remark,
+                        s.Tonnage,
+                        s.YearOfConstruction,
+                        ShippingCompany = s.ShippingCompany != null ? s.ShippingCompany.Name : null,
+                        ShipNames = s.ShipNames != null ? s.ShipNames.Select(sn => sn.Name).ToList() : new List<string>()
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(result);
             })
             .WithName("GetCruiseShips")
-            .Produces<List<CruiseShip>>(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK);
     }
 }

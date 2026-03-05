@@ -16,7 +16,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<ShippingCompany> Companies { get; set; }
     public DbSet<CruiseShip>      Ships     { get; set; }
-    public DbSet<CruiseShip>      ShipNames { get; set; }
+    public DbSet<ShipName>        ShipNames { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -25,6 +25,8 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // TODO Add Mapping
+        modelBuilder.Entity<CruiseShip>().Map();
+        modelBuilder.Entity<ShipName>().Map();
+        modelBuilder.Entity<ShippingCompany>().Map();
     }
 }

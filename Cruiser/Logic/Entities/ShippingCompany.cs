@@ -7,7 +7,7 @@ public class ShippingCompany : EntityObject
     public          string? City     { get; set; }
     public          string? PLZ      { get; set; }
     public          string? Street   { get; set; }
-    public          int?     StreetNo { get; set; }
+    public          string? StreetNo { get; set; }
 
     public ICollection<CruiseShip>? CruiseShips { get; set; } = null;
 }

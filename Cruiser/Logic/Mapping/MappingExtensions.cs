@@ -14,6 +14,11 @@ public static class MappingExtensions
         return builder.IsUnicode().HasMaxLength(maxLength);
     }
 
+    public static PropertyBuilder<string?> AsText(this PropertyBuilder<string?> builder, int maxLength)
+    {
+        return builder.IsUnicode().HasMaxLength(maxLength);
+    }
+
     public static PropertyBuilder<string> AsRequiredText(this PropertyBuilder<string> builder, int maxLength)
     {
         return builder.IsUnicode().IsRequired().HasMaxLength(maxLength);
