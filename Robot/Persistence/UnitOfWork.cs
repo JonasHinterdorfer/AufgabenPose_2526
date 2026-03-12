@@ -10,13 +10,20 @@ public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
 
     public UnitOfWork(
         ApplicationDbContext   applicationDbContext,
-        ICompetitionRepository competition
+        ICompetitionRepository competition,
+        IDriverRepository     driver,
+        IRaceRepository       race,
+        IMoveRepository       move
     ) : base(applicationDbContext)
     {
         Competition = competition;
-        //TODO Init
+        Driver = driver;
+        Race = race;
+        Move = move;
     }
 
     public ICompetitionRepository Competition { get; }
-    //TODO properties
+    public IDriverRepository Driver { get; }
+    public IRaceRepository Race { get; }
+    public IMoveRepository Move { get; }
 }

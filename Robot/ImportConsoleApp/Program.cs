@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -26,6 +26,10 @@ AppService.ServiceCollection
         options.UseSqlServer(connectionString))
     .AddScoped<IUnitOfWork, UnitOfWork>()
     .AddTransient<ICompetitionRepository, CompetitionRepository>()
+    .AddTransient<IDriverRepository, DriverRepository>()
+    .AddTransient<IRaceRepository, RaceRepository>()
+    .AddTransient<IMoveRepository, MoveRepository>()
+    .AddTransient<IImportService, ImportService>()
     ;
 
 AppService.BuildServiceProvider();
@@ -48,11 +52,11 @@ async Task ImportCsvs()
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var moves = await import.ImportRace(race.Driver, race.Competition, race.Moves);
+            var movesCount = await import.ImportRace(race.Driver, race.Competition, race.Moves);
 
             stopwatch.Stop();
 
-            Console.WriteLine($"Imported {race.Driver}-{race.Competition} in {stopwatch.Elapsed}");
+            Console.WriteLine($"Imported {race.Driver}-{race.Competition} ({movesCount} moves) in {stopwatch.Elapsed}");
             countTotal++;
         }
     }

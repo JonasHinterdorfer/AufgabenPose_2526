@@ -12,6 +12,7 @@ public class Move : EntityObject
 
     public int   RaceId { get; set; }
 
-    //TODO navigation properties
+    // navigation properties
+    public Race? Race { get; set; }
 
 }

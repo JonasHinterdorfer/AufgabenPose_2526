@@ -36,5 +36,10 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Competition>(e => e.Map());
+        modelBuilder.Entity<Driver>(e => e.Map());
+        modelBuilder.Entity<Race>(e => e.Map());
+        modelBuilder.Entity<Move>(e => e.Map());
     }
 }

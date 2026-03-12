@@ -11,5 +11,9 @@ using System.Collections.Generic;
 
 public interface ICompetitionRepository : IGenericRepository<Competition>
 {
-    //TODO select by name
+    // select by name
+    Task<Competition?> GetByNameAsync(string competitionName);
+
+    // returns competitions that have at least one race (with includes)
+    Task<IList<Competition>> GetAllWithRace();
 }

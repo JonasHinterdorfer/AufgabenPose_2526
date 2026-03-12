@@ -1,4 +1,4 @@
-﻿namespace Core.Entities;
+﻿﻿namespace Core.Entities;
 
 using System.Collections.Generic;
 
@@ -8,6 +8,7 @@ public class Competition : EntityObject
 {
     public string Name { get; set; } = string.Empty;
 
-    //TODO navigation properties
+    // navigation properties
+    public IList<Race> Races { get; set; } = new List<Race>();
 
 }

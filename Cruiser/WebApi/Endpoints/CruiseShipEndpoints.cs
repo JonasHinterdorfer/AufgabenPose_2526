@@ -11,7 +11,6 @@ public static class CruiseShipEndpoints
     {
         var ships = app.MapGroup($"{baseRoute}").WithTags("CruiseShips");
 
-        // GET: api/CruiseShips
         ships.MapGet("", async (ApplicationDbContext dbContext) =>
             {
                 var result = await dbContext.Ships
@@ -29,7 +28,7 @@ public static class CruiseShipEndpoints
                         s.Tonnage,
                         s.YearOfConstruction,
                         ShippingCompany = s.ShippingCompany != null ? s.ShippingCompany.Name : null,
-                        ShipNames = s.ShipNames != null ? s.ShipNames.Select(sn => sn.Name).ToList() : new List<string>()
+                        ShipNames = s.ShipNames != null ? s.ShipNames.Select(sn => sn.Name).ToList() : []
                     })
                     .ToListAsync();
 
