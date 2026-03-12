@@ -4,6 +4,7 @@ using Base.Tools.CsvImport;
 
 using Core.Entities;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 using Persistence;
@@ -14,24 +15,36 @@ namespace UnitTest.Repository;
 
 public class RepositoryTestFixture : RepositoryTestFixtureBase<ApplicationDbContext>, IAsyncLifetime
 {
-    public async ValueTask InitializeAsync()
+    private SqliteConnection? _connection;
+
+    public async Task InitializeAsync()
     {
         //drop and recreate the test Db every time. 
+
+        // create and open an in-memory Sqlite connection that lives for the duration of the tests
+        _connection = new SqliteConnection("Data Source=:memory:");
+        await _connection.OpenAsync();
 
         await InitializeDatabase();
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
-        await Task.CompletedTask;
+        if (_connection is not null)
+        {
+            await _connection.CloseAsync();
+            _connection.Dispose();
+            _connection = null;
+        }
     }
 
     private async Task InitializeDatabase()
     {
         using (var dbContext = CreateDbContext())
         {
+            // For in-memory Sqlite we use EnsureDeleted/EnsureCreated to get a clean database
             await dbContext.Database.EnsureDeletedAsync();
-            await dbContext.Database.MigrateAsync();
+            await dbContext.Database.EnsureCreatedAsync();
 
             await ImportDataAsync(dbContext);
 
@@ -144,11 +157,18 @@ public class RepositoryTestFixture : RepositoryTestFixtureBase<ApplicationDbCont
 
     public override ApplicationDbContext CreateDbContext()
     {
-        var connectString = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = Robot_Test; Integrated Security = True";
+        if (_connection is null)
+        {
+            // Fallback to a file-based sqlite DB if called before InitializeAsync; this is unlikely in the test flow.
+            var fallback = new SqliteConnection("Data Source=Robot_Test.db");
+            fallback.Open();
+            var fallbackOptionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            fallbackOptionsBuilder.UseSqlite(fallback);
+            return new ApplicationDbContext(fallbackOptionsBuilder.Options);
+        }
 
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-
-        optionsBuilder.UseSqlServer(connectString, x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.GetName().Name));
+        optionsBuilder.UseSqlite(_connection);
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
