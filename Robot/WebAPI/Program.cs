@@ -5,29 +5,21 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure JSON serialization to ignore reference cycles caused by navigation properties
 builder.Services.ConfigureHttpJsonOptions(opts =>
 {
-    // Use ReferenceHandler.Preserve to support object graphs with cycles.
-    // This emits $id / $ref metadata in the JSON to preserve references and avoid infinite recursion.
-    // Note: Preserve changes the JSON shape; for public APIs it's better to map entities to DTOs without back-references.
     opts.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    // Increase max depth if your object graphs are deep
     opts.SerializerOptions.MaxDepth = 128;
 });
 
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-// Choose database provider based on platform and available configuration
 if (OperatingSystem.IsWindows() && !string.IsNullOrEmpty(connectionString))
 {
-    // On Windows prefer configured SqlServer (e.g., LocalDB)
     builder.Services.AddDbContext<Persistence.ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 }
 else
 {
-    // On non-Windows (or when DefaultConnection is missing) use a file-based Sqlite DB for development
     var contentRoot = builder.Environment.ContentRootPath ?? AppContext.BaseDirectory;
     var sqlitePath = System.IO.Path.Combine(contentRoot, "Robot.db");
     var sqliteConnString = $"Data Source={sqlitePath}";
@@ -46,14 +38,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Apply migrations / ensure database is created on startup
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var db = services.GetRequiredService<Persistence.ApplicationDbContext>();
-        // If SQL Server is used, prefer migrations; for Sqlite use EnsureCreated to avoid SQL Server-specific migration issues
         if (db.Database.IsSqlServer())
         {
             db.Database.Migrate();
@@ -67,7 +57,6 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while creating or migrating the database.");
-        // Rethrow to prevent running with a broken DB schema
         throw;
     }
 }
@@ -90,7 +79,6 @@ app.MapGet("/competitions", async (Core.Contracts.IUnitOfWork uow) =>
 {
     var list = await uow.Competition.GetAllWithRace();
 
-    // Project to a DTO-like shape that intentionally omits the Race.Competition back-reference
     var dto = list.Select(c => new
     {
         c.Id,
