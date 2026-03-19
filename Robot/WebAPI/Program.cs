@@ -88,7 +88,7 @@ app.MapGet("/competitions", async (Core.Contracts.IUnitOfWork uow) =>
             r.Id,
             r.RaceTime,
             Driver = r.Driver == null ? null : new { r.Driver.Id, r.Driver.Name },
-            Moves = r.Moves?.Select(m => new { m.Id, m.No, m.Direction, m.Speed, m.Duration }).ToList()
+            Moves = r.Moves.Select(m => new { m.Id, m.No, m.Direction, m.Speed, m.Duration }).ToList()
         }).ToList()
     }).ToList();
 
@@ -98,7 +98,7 @@ app.MapGet("/competitions", async (Core.Contracts.IUnitOfWork uow) =>
 app.MapGet("/races/count/{driverName}", async (string driverName, Core.Contracts.IUnitOfWork uow) =>
 {
     var races = await uow.Race.GetByDriverAsync((await uow.Driver.GetByNameAsync(driverName))?.Id ?? 0);
-    return Results.Ok(new { Count = races.Count });
+    return Results.Ok(new { races.Count });
 }).WithName("races_count");
 
 app.Run();

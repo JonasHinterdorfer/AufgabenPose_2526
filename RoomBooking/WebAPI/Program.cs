@@ -51,5 +51,6 @@ app.MapGet("/ping", () => "pong")
     .WithTags("Health");
 
 app.MapRoomEndpoints("/api/room");
+app.MapCustomerEndpoints("/api/customer");
 
 app.Run();

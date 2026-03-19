@@ -23,7 +23,6 @@ public class CompetitionRepository : GenericRepository<Competition>, ICompetitio
 
     public Task<IList<Competition>> GetAllWithRace()
     {
-        // return competitions that have at least one race and include nested Driver and Moves
         return GetAsync(c => c.Races.Any(), null, "Races.Driver", "Races.Moves");
     }
 }

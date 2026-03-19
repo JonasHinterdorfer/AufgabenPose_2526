@@ -3,15 +3,19 @@
 namespace Persistence;
 
 using Base.Persistence;
+using Base.Core.Contracts;
+using Core.Entities;
 
 public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
 {
     public UnitOfWork(ApplicationDbContext dBContext) : base(dBContext)
     {
         Bookings  = new BookingRepository(dBContext);
-        //TODO
+        Rooms     = new RoomRepository(dBContext);
+        Customers = new CustomerRepository(dBContext);
     }
 
-    //TODO
     public IBookingRepository  Bookings  { get; }
+    public IRoomRepository Rooms { get; }
+    public ICustomerRepository Customers { get; }
 }

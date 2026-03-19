@@ -163,5 +163,13 @@ public static class RoomEndpoints
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status204NoContent);
+
+        route.MapGet("/overview", async (RoomType? roomType, string? filterNumber, IUnitOfWork uow) =>
+            {
+                var overviews = await uow.Rooms.GetRoomWithBookingsAsync(roomType, filterNumber);
+                return Results.Ok(overviews);
+            })
+            .WithName("GetRoomOverview")
+            .Produces<List<Core.QueryResult.RoomOverview>>(StatusCodes.Status200OK);
     }
 }

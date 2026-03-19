@@ -9,5 +9,5 @@ using Base.Core.Contracts;
 
 public interface IBookingRepository : IGenericRepository<Booking>
 {
-    //TODO
+    // Booking-specific queries can be added here if needed
 }

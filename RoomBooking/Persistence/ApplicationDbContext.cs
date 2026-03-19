@@ -10,14 +10,14 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    //TODO
     public DbSet<Booking> Bookings { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Apply all entity configurations from the current assembly
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }

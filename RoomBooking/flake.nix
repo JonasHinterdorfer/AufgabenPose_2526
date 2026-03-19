@@ -35,6 +35,7 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               dotnet-sdk_10  # Note: Using .NET 9 SDK as .NET 10 may not be available in nixpkgs yet
+              dotnet-ef
               omnisharp-roslyn
             ];
 
