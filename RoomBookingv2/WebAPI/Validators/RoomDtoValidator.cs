@@ -10,6 +10,8 @@ public class RoomDtoValidator : AbstractValidator<RoomDto>
     {
         RuleFor(x => x.RoomNumber)
             .MinimumLength(3)
-            .WithMessage("RoomNumber must be at least 3 characters long");
+            .WithMessage("RoomNumber must be at least 3 characters long")
+            .Matches(@"^R-[0-9]+$")
+            .WithMessage("RoomNumber must start with 'R-' followed by at least one digit");
     }
 }
