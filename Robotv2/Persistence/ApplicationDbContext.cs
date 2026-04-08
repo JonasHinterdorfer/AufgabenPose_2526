@@ -12,9 +12,12 @@ using System.Diagnostics;
 
 public class ApplicationDbContext : DbContext
 {
+    internal DbSet<Competition> Competitions { get; set; }
+    internal DbSet<Race> Races { get; set; }
+    internal DbSet<Driver> Drivers { get; set; }
+    internal DbSet<Move> Moves { get; set; }
     public ApplicationDbContext() : base()
     {
-        //We need this constructor for migration
     }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -27,14 +30,18 @@ public class ApplicationDbContext : DbContext
         {
             //We need this for migration
             var connectionString = ConfigurationHelper.GetConfiguration().Get("DefaultConnection", "ConnectionStrings");
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlite(connectionString);
         }
-
+        
         optionsBuilder.LogTo(message => Debug.WriteLine(message));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Competition>().Map();
+        modelBuilder.Entity<Race>().Map();
+        modelBuilder.Entity<Driver>().Map();
+        modelBuilder.Entity<Move>().Map();
     }
 }

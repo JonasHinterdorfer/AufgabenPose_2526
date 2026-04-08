@@ -11,9 +11,10 @@ public class Race : EntityObject
     public DateTime RaceTime { get; set; }
 
     public int          CompetitionId { get; set; }
+    public Competition? Competition { get; set; }
 
     public int     DriverId { get; set; }
+    public Driver? Driver { get; set; }
 
-    //TODO navigation properties
-
+    public ICollection<Move>? Moves { get; set; }
 }

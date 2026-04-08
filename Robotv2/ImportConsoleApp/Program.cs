@@ -23,7 +23,7 @@ var connectionString = configuration.GetConnectionString("DefaultConnection") ??
 AppService.ServiceCollection = new ServiceCollection();
 AppService.ServiceCollection
     .AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString))
+        options.UseSqlite(connectionString))
     .AddScoped<IUnitOfWork, UnitOfWork>()
     .AddTransient<ICompetitionRepository, CompetitionRepository>()
     ;

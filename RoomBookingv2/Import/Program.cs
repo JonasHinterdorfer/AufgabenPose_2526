@@ -60,7 +60,7 @@ using (var scope = host.Services.CreateScope())
         FirstName = b.FirstName,
         LastName  = b.LastName,
         IBAN = b.CreditCardNumber
-    }).ToList(); 
+    }).Distinct().ToList(); 
     await uow.Customers.AddRangeAsync(customers);
     
     var bookings = bookingsCsv.Select(b => new Booking
