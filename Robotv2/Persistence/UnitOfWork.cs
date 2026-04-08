@@ -4,6 +4,8 @@ using Core.Contracts;
 
 using Base.Persistence;
 
+using Core.Contracts.Repositories;
+
 public class UnitOfWork : BaseUnitOfWork, IUnitOfWork
 {
     public ApplicationDbContext? ApplicationDbContext => BaseApplicationDbContext as ApplicationDbContext;

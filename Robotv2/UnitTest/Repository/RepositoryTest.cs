@@ -6,6 +6,10 @@ namespace UnitTest.Repository;
 
 using Core.Contracts;
 
+using Persistence.Repositories;
+
+using RaceRepository = Persistence.RaceRepository;
+
 [CollectionDefinition(nameof(MyRepositoryTests))]
 public class MyRepositoryTests : ICollectionFixture<RepositoryTestFixture>
 {

@@ -7,6 +7,7 @@ using Base.Tools;
 using Base.Tools.CsvImport;
 
 using Core.Contracts;
+using Core.Contracts.Repositories;
 
 using ImportConsoleApp.ImportData;
 
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Persistence;
+using Persistence.Repositories;
 
 var configuration = ConfigurationHelper.GetConfiguration();
 
