@@ -8,9 +8,8 @@ public class StatementDtoValidator : AbstractValidator<StatementDto>
 {
     public StatementDtoValidator()
     {
-        //RuleFor(x => x.)
-        //    .MinimumLength(max)
-        //    .WithMessage("Description must be at least max characters long");
-
+        RuleFor(x => x.Description)
+            .MinimumLength(10)
+            .WithMessage("Description must be at least 10 characters long");
     }
 }

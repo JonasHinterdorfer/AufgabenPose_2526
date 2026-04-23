@@ -27,3 +27,8 @@ packages/
 .DS_Store
 Thumbs.db
 .envrc.allowed
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal

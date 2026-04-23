@@ -1,9 +1,13 @@
 ﻿namespace Core.Entities;
 
-using System.ComponentModel.DataAnnotations;
-
 using Base.Core.Entities;
 
-public class Rating 
+public class Rating : EntityObject
 {
+    public int     Rate      { get; set; }
+    public string? Remark    { get; set; }
+    public string  UserName  { get; set; } = null!;
+
+    public int       StatementId { get; set; }
+    public Statement Statement   { get; set; } = null!;
 }

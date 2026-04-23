@@ -7,6 +7,11 @@ using Core.QueryResult;
 using WebAPI.Filters;
 
 public record StatementDto(
+    int    Id,
+    string Description,
+    string StatementType,
+    string Category,
+    string Politician
 );
 
 public static class StatementEndpoints
@@ -17,7 +22,10 @@ public static class StatementEndpoints
     {
         return new Statement()
         {
-            Id          = dto.Id,
+            Id            = dto.Id,
+            Description   = dto.Description,
+            Politician    = dto.Politician,
+            StatementType = Enum.Parse<Core.Entities.StatementType>(dto.StatementType, ignoreCase: true),
         };
     }
 
@@ -30,6 +38,10 @@ public static class StatementEndpoints
 
         return new StatementDto(
             entity.Id,
+            entity.Description,
+            entity.StatementType.ToString(),
+            entity.Category?.Description ?? string.Empty,
+            entity.Politician
         );
     }
 
@@ -58,6 +70,13 @@ public static class StatementEndpoints
             .WithName("GetStatements")
             .Produces<List<StatementDto>>(StatusCodes.Status200OK);
 
+        route.MapGet("/overview", async (int? category, IUnitOfWork uow) =>
+            {
+                var overviews = await uow.Statements.GetStatementOverviewsAsync(category);
+                return Results.Ok(overviews);
+            })
+            .WithName("GetStatementOverview")
+            .Produces<List<StatementOverview>>(StatusCodes.Status200OK);
 
         route.MapGet("/{id:int}", async (int id, IUnitOfWork uow) =>
             {
@@ -97,12 +116,16 @@ public static class StatementEndpoints
                         detail: $"No Statement found with ID {id}");
                 }
 
-                throw new NotImplementedException();
+                entity.Description   = dto.Description;
+                entity.Politician    = dto.Politician;
+                entity.StatementType = Enum.Parse<Core.Entities.StatementType>(dto.StatementType, ignoreCase: true);
+                entity.Modified      = DateTime.UtcNow;
 
                 await uow.SaveChangesAsync();
 
                 return Results.NoContent();
             })
+            .WithValidation<StatementDto>()
             .WithName("UpdateStatement")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -119,9 +142,20 @@ public static class StatementEndpoints
                         detail: "The ID in the request body must be 0");
                 }
 
-                var entity = ToEntity(dto);
+                var categoryEntities = await uow.Categories.GetAsync(c => c.Description == dto.Category);
+                var category = categoryEntities.FirstOrDefault();
 
-                throw new NotImplementedException();
+                if (category is null)
+                {
+                    return Results.Problem(
+                        statusCode: StatusCodes.Status400BadRequest,
+                        title: "Category not found",
+                        detail: $"No Category found with description '{dto.Category}'");
+                }
+
+                var entity = ToEntity(dto);
+                entity.CategoryId = category.Id;
+                entity.Created    = DateTime.UtcNow;
 
                 await uow.Statements.AddAsync(entity);
 
@@ -129,7 +163,7 @@ public static class StatementEndpoints
 
                 int id = entity.Id;
 
-                return Results.Created($"{baseRoute}/{id}", ToDto(await uow.Statements.GetByIdAsync(id)));
+                return Results.Created($"{baseRoute}/{id}", ToDto(await uow.Statements.GetByIdAsync(id, nameof(Statement.Category))));
             })
             .WithValidation<StatementDto>()
             .WithName("AddStatement")
