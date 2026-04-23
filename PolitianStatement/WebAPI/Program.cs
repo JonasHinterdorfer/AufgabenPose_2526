@@ -28,7 +28,7 @@ var configuration    = ConfigurationHelper.GetConfiguration();
 var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
@@ -50,8 +50,8 @@ app.MapGet("/ping", () => "pong")
     .WithName("Ping")
     .WithTags("Health");
 
-app.MapCategoryEndpoints();
-//app.MapRatingEndpoints();
-//app.MapStatementEndpoints();
+app.MapCategoryEndpoints("/api/category");
+app.MapRatingEndpoints("/api/rating");
+app.MapStatementEndpoints("/api/statement");
 
 app.Run();

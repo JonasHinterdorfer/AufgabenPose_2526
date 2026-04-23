@@ -2,7 +2,6 @@
 
 namespace Core.Contracts;
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,4 +11,5 @@ using Core.QueryResult;
 
 public interface IStatementRepository : IGenericRepository<Statement>
 {
+    Task<IList<StatementOverview>> GetStatementOverviewsAsync(int? categoryId);
 }
