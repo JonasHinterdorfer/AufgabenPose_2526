@@ -1,0 +1,29 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Visual Studio
+.vs/
+*.vsidx
+*.vsconfig
+
+# Rider
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+.envrc.allowed

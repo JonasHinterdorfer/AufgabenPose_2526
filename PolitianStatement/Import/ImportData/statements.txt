@@ -1,0 +1,51 @@
+﻿Category;Politician;Statement
+Demokratie;Winston Churchill;Demokratie ist die schlechteste Regierungsform – abgesehen von all den anderen, die man von Zeit zu Zeit ausprobiert hat.
+Krieg;Winston Churchill;We shall fight on the beaches
+Krieg;Winston Churchill;Never was so much owed by so many to so few
+Patriotismus;John F. Kennedy;Frage nicht, was dein Land für dich tun kann – frage, was du für dein Land tun kannst.
+Freiheit;John F. Kennedy;Ich bin ein Berliner
+Raumfahrt;John F. Kennedy;We choose to go to the Moon...
+Demokratie;Abraham Lincoln;Government of the people, by the people, for the people
+Demokratie;Abraham Lincoln;Four score and seven years ago...
+Angst;Franklin D. Roosevelt;The only thing we have to fear is fear itself
+Demokratie;Ronald Reagan;Mr. Gorbachev, tear down this wall
+Regierung;Ronald Reagan;Government is not the solution to our problem
+Motivation;Barack Obama;Yes we can
+Veränderung;Barack Obama;Change we can believe in
+Gesellschaft;Barack Obama;We are the change we have been waiting for
+Motivation;Nelson Mandela;Es erscheint immer unmöglich, bis es vollbracht ist
+Erfolg;Nelson Mandela;Die größte Ehre im Leben liegt nicht darin, nie zu fallen, sondern jedes Mal wieder aufzustehen
+Freiheit;Nelson Mandela;Freiheit ist nicht nur die Abwesenheit von Fesseln
+Bildung;Nelson Mandela;Education is the most powerful weapon
+Veränderung;Mahatma Gandhi;Sei du selbst die Veränderung, die du dir wünschst für diese Welt
+Gewalt;Mahatma Gandhi;An eye for an eye makes the whole world blind
+Leben;Mahatma Gandhi;Live as if you were to die tomorrow
+Politik;Margaret Thatcher;There is no alternative
+Politik;Margaret Thatcher;The lady’s not for turning
+Krieg;Charles de Gaulle;France has lost a battle, but not the war
+Gesellschaft;Charles de Gaulle;How can you govern a country which has 246 varieties of cheese?
+Freiheit;Benjamin Franklin;They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety
+Philosophie;John Adams;Facts are stubborn things
+Gleichheit;Thomas Jefferson;All men are created equal
+Politik;Harry S. Truman;The buck stops here
+Führung;Dwight D. Eisenhower;"Plans are nothing; planning is everything"
+Krieg;Winston Churchill;We shall fight on the beaches
+Krieg;Winston Churchill;We shall fight on the seas and oceans
+Führung;Theodore Roosevelt;Speak softly and carry a big stick
+Politik;Helmut Schmidt;Wer Visionen hat, sollte zum Arzt gehen
+Demokratie;Willy Brandt;Mehr Demokratie wagen
+Krieg;Dwight D. Eisenhower;Plans are useless, but planning is indispensable
+Politik;Ronald Reagan;Government is the problem
+Steuern;Margaret Thatcher;There is no such thing as public money, only taxpayers' money
+Krieg;Winston Churchill;We shall never surrender
+Krieg;Winston Churchill;This was their finest hour
+Motivation;Abraham Lincoln;I am a slow walker, but I never walk back
+Bildung;Benjamin Franklin;Tell me and I forget. Teach me and I remember. Involve me and I learn
+Freiheit;John Adams;Liberty, once lost, is lost forever
+Freiheit;Thomas Jefferson;I prefer dangerous freedom over peaceful slavery
+Motivation;Theodore Roosevelt;Do what you can, with what you have, where you are
+Arbeit;Harry S. Truman;If you can't stand the heat, get out of the kitchen
+Zukunft;Franklin D. Roosevelt;The only limit to our realization of tomorrow is our doubts of today
+Motivation;Barack Obama;A change is brought about because ordinary people do extraordinary things
+Motivation;Nelson Mandela;It always seems impossible until it's done
+Leben;Mahatma Gandhi;Where there is love there is life
